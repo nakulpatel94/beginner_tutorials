@@ -11,8 +11,7 @@ For this project, you require following dependencies:
 - ROS kinetic
 - catkin
 
-ROS can be installed from the http://wiki.ros.org site, click on following link to navigate to the installation guide:
-For ROS, [here](http://wiki.ros.org/kinetic/Installation)
+ROS can be installed from the http://wiki.ros.org site. Click on following link [here](http://wiki.ros.org/kinetic/Installation) to navigate to the installation guide for ROS.
 
 ## Building this package(beginner_tutorials)
 To build the given package, first you need to create a catkin workspace, the steps of which are as below:

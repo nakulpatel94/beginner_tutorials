@@ -24,6 +24,7 @@ source devel/setup.bash
 ```
 After making a catkin workspace and building the workspace using catkin_make, you now need to follow these below steps to install and build the package:
 
+```
 cd src/
 git clone --recursive https://github.com/nakulpatel94/beginner_tutorials.git
 cd ..
@@ -41,6 +42,7 @@ After successfully building the workspace with the package, we have already crea
 Now, first step is to run roscore to start the ROS system
 
 1. In a new terminal, execute roscore command as follows:
+
 ```
 roscore
 ```

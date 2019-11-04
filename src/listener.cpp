@@ -67,6 +67,14 @@ void chatterCallback(const std_msgs::String::ConstPtr& msg) {
   ROS_INFO_STREAM("I heard: "<< msg->data.c_str());
 }
 
+/**
+ * @brief callback function for service
+ *
+ * @param &req
+ * @param &res
+ *
+ * @return bool
+ */
 bool modifyString(beginner_tutorials::changeString::Request &req,
                   beginner_tutorials::changeString::Response &res) {
   if (req.inputString.size() > 0) {
@@ -108,7 +116,8 @@ int main(int argc, char **argv) {
    * NodeHandle destructed will close down the node.
    */
   ros::NodeHandle n;
-
+  
+  /// Making a server side of service
   ros::ServiceServer service = n.advertiseService
             ("modify_string", modifyString);
 

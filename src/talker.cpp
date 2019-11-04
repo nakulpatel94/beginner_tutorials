@@ -81,8 +81,10 @@ int main(int argc, char **argv) {
    */
   ros::NodeHandle n;
 
+  /// Making a client side of service
   ros::ServiceClient client = n.serviceClient < beginner_tutorials::changeString
       > ("modify_string");
+  /// Declare object of type beginner_tutorials::changeString
   beginner_tutorials::changeString srvObj;
   // srvObj.request.inputString = argv[1];
   /**

@@ -71,7 +71,8 @@ bool modifyString(beginner_tutorials::changeString::Request &req,
                   beginner_tutorials::changeString::Response &res) {
   if (req.inputString.size() > 0) {
     res.outputString = req.inputString;
-    ROS_DEBUG_STREAM("Service has been called.");
+    ROS_INFO_STREAM("Service has been called.");
+    ROS_DEBUG_STREAM("Input string is:" << res.outputString);
     return true;
   } else {
     ROS_WARN_STREAM("Non-empty string entered.");
@@ -107,10 +108,9 @@ int main(int argc, char **argv) {
    * NodeHandle destructed will close down the node.
    */
   ros::NodeHandle n;
-
+  
   ros::ServiceServer service = n.advertiseService("modify_string",
                                                   modifyString);
-  
 
   /**
    * The subscribe() call is how you tell ROS that you want to receive messages
@@ -128,6 +128,7 @@ int main(int argc, char **argv) {
    * away the oldest ones.
    */
   ros::Subscriber sub = n.subscribe("chatter", 1000, chatterCallback);
+
 
   /**
    * ros::spin() will enter a loop, pumping callbacks.  With this version, all

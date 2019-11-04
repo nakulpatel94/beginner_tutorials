@@ -84,9 +84,8 @@ int main(int argc, char **argv) {
   ros::ServiceClient client = n.serviceClient < beginner_tutorials::changeString
       > ("modify_string");
   beginner_tutorials::changeString srvObj;
-
-  srvObj.request.inputString = argv[1];
-
+  // srvObj.request.inputString = argv[1];
+   
   /**
    * The advertise() function is how you tell ROS that you want to
    * publish on a given topic name. This invokes a call to the ROS
@@ -123,19 +122,22 @@ int main(int argc, char **argv) {
     ss << "Hi! This is the basic beginner tutorial for"
        " implementing ROS publisher and subscriber."
        << count;
-    srvObj.request.inputString =
-        "Modified the string. Now you see this sentence on the topic.";
+    
+    msg.data = ss.str();
+
+    srvObj.request.inputString = msg.data;
+
     if (client.call(srvObj)) {
       ROS_INFO_STREAM(
           "The original message has been modified to: "
               << srvObj.response.outputString);
+      msg.data = srvObj.response.outputString;
     } else {
       ROS_ERROR_STREAM("Could not successfully execute the service.");
+      
     }
-
-    msg.data = srvObj.response.outputString;
-
-
+    ROS_INFO_STREAM("Talker: "<< msg.data.c_str());
+    
     /**
      * The publish() function is how you send messages. The parameter
      * is the message object. The type of this object must agree with the type

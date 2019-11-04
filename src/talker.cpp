@@ -126,15 +126,15 @@ int main(int argc, char **argv) {
     srvObj.request.inputString =
         "Modified the string. Now you see this sentence on the topic.";
     if (client.call(srvObj)) {
-      ROS_INFO_STREAM("The original message has been modified to: "<<
-                      srvObj.response.outputString);
+      ROS_INFO_STREAM(
+          "The original message has been modified to: "
+              << srvObj.response.outputString);
     } else {
       ROS_ERROR_STREAM("Could not successfully execute the service.");
     }
 
     msg.data = srvObj.response.outputString;
 
-    ROS_INFO("%s", msg.data.c_str());
 
     /**
      * The publish() function is how you send messages. The parameter
@@ -151,4 +151,3 @@ int main(int argc, char **argv) {
   }
   return 0;
 }
-

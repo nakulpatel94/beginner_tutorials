@@ -51,6 +51,7 @@
  */
 
 #include <sstream>
+#include <string>
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 #include "beginner_tutorials/changeString.h"
@@ -63,18 +64,21 @@
  * @return none
  */
 void chatterCallback(const std_msgs::String::ConstPtr& msg) {
-  ROS_INFO("I heard: [%s]", msg->data.c_str());
+  ROS_INFO_STREAM("I heard: "<< msg->data.c_str());
 }
 
 bool modifyString(beginner_tutorials::changeString::Request &req,
                   beginner_tutorials::changeString::Response &res) {
-
-  res.outputString = req.inputString;
-  return true;
+  if (req.inputString.size() > 0) {
+    res.outputString = req.inputString;
+    ROS_DEBUG_STREAM("Service has been called.");
+    return true;
+  } else {
+    ROS_WARN_STREAM("Non-empty string entered.");
+    ROS_FATAL_STREAM("You must enter non-empty string");
+    return false;
+  }
 }
-
-
-
 
 /**
  *  @brief main function for listener node
@@ -106,6 +110,7 @@ int main(int argc, char **argv) {
 
   ros::ServiceServer service = n.advertiseService("modify_string",
                                                   modifyString);
+  
 
   /**
    * The subscribe() call is how you tell ROS that you want to receive messages

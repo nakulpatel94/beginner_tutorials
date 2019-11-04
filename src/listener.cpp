@@ -50,8 +50,10 @@
  *
  */
 
-# include "ros/ros.h"
-# include "std_msgs/String.h"
+#include <sstream>
+#include "ros/ros.h"
+#include "std_msgs/String.h"
+#include "beginner_tutorials/changeString.h"
 
 /**
  * @brief callback function to read subscribed message on the topic
@@ -63,6 +65,15 @@
 void chatterCallback(const std_msgs::String::ConstPtr& msg) {
   ROS_INFO("I heard: [%s]", msg->data.c_str());
 }
+
+bool modifyString(beginner_tutorials::changeString::Request &req,
+                  beginner_tutorials::changeString::Response &res) {
+
+  res.outputString = req.inputString;
+  return true;
+}
+
+
 
 
 /**
@@ -86,7 +97,6 @@ int main(int argc, char **argv) {
    */
   ros::init(argc, argv, "listener");
 
-
   /**
    * NodeHandle is the main access point to communications with the ROS system.
    * The first NodeHandle constructed will fully initialize this node, and the last
@@ -94,6 +104,8 @@ int main(int argc, char **argv) {
    */
   ros::NodeHandle n;
 
+  ros::ServiceServer service = n.advertiseService("modify_string",
+                                                  modifyString);
 
   /**
    * The subscribe() call is how you tell ROS that you want to receive messages
@@ -112,7 +124,6 @@ int main(int argc, char **argv) {
    */
   ros::Subscriber sub = n.subscribe("chatter", 1000, chatterCallback);
 
-
   /**
    * ros::spin() will enter a loop, pumping callbacks.  With this version, all
    * callbacks will be called from within this thread (the main one).  ros::spin()
@@ -123,3 +134,4 @@ int main(int argc, char **argv) {
 
   return 0;
 }
+

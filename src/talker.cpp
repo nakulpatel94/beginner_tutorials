@@ -47,9 +47,11 @@
  * will send the custom message over the ROS system.
  *
  */
-# include <sstream>
-# include "ros/ros.h"
-# include "std_msgs/String.h"
+#include <sstream>
+#include <string>
+#include "ros/ros.h"
+#include "std_msgs/String.h"
+#include "beginner_tutorials/changeString.h"
 
 /**
  *  @brief main function for talker node
@@ -78,6 +80,12 @@ int main(int argc, char **argv) {
    * NodeHandle destructed will close down the node.
    */
   ros::NodeHandle n;
+
+  ros::ServiceClient client = n.serviceClient < beginner_tutorials::changeString
+      > ("modify_string");
+  beginner_tutorials::changeString srvObj;
+
+  srvObj.request.inputString = argv[1];
 
   /**
    * The advertise() function is how you tell ROS that you want to
@@ -115,7 +123,16 @@ int main(int argc, char **argv) {
     ss << "Hi! This is the basic beginner tutorial for"
        " implementing ROS publisher and subscriber."
        << count;
-    msg.data = ss.str();
+    srvObj.request.inputString =
+        "Modified the string. Now you see this sentence on the topic.";
+    if (client.call(srvObj)) {
+      ROS_INFO_STREAM("The original message has been modified to: "<<
+                      srvObj.response.outputString);
+    } else {
+      ROS_ERROR_STREAM("Could not successfully execute the service.");
+    }
+
+    msg.data = srvObj.response.outputString;
 
     ROS_INFO("%s", msg.data.c_str());
 

@@ -108,9 +108,9 @@ int main(int argc, char **argv) {
    * NodeHandle destructed will close down the node.
    */
   ros::NodeHandle n;
-  
-  ros::ServiceServer service = n.advertiseService("modify_string",
-                                                  modifyString);
+
+  ros::ServiceServer service = n.advertiseService
+            ("modify_string", modifyString);
 
   /**
    * The subscribe() call is how you tell ROS that you want to receive messages

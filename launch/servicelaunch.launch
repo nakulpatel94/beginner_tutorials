@@ -1,15 +1,20 @@
 <launch>
+        <arg 
+               name = "freq"
+               default = "10"
+        />
 	<node
 		pkg = "beginner_tutorials"
 		name = "talker"
 		type = "talker"
 		output = "screen"
+                args = "$(arg freq)"
 	/>
 	<node
 		pkg = "beginner_tutorials"
 		name = "listener"
 		type = "listener"
-		output = "screen"	
+		output = "screen"           
 	/>
 </launch>
 

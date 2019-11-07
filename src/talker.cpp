@@ -38,7 +38,7 @@
  *
  * @version 1
  *
- * @date 2019-10-28
+ * @date 2019-11-06
  *
  * @section DESCRIPTION
  *
@@ -53,6 +53,41 @@
 #include "std_msgs/String.h"
 #include "beginner_tutorials/changeString.h"
 
+/// To initialize the baseString appearing on console
+extern std::string baseString = "This is the basic tutorial for"
+    " implementing ROS services.";
+
+/**
+ *  @brief modifies the base string
+ *
+ *  @param &req- request object containing the input string from client
+ *
+ *  @param &res- response object for the service
+ *
+ *  @return bool- indicating success/failure of service call
+ *
+ *  Service callback function that modifies the baseString variable
+ *  with the inputString from Request object, and also
+ *  set the response data with same inputString.
+ */
+bool modifyString(beginner_tutorials::changeString::Request &req,
+                  beginner_tutorials::changeString::Response &res) {
+  if (req.inputString.size() > 0) {
+    baseString = req.inputString;
+    /// Stuffing the response object data with incoming request data
+    res.outputString = req.inputString;
+
+    /// Log messages for various levels
+    ROS_INFO_STREAM("Service has been called.");
+    ROS_DEBUG_STREAM("Output string is:" << res.outputString);
+    return true;
+  } else {
+    ROS_FATAL_STREAM("You must enter non-empty string");
+    return false;
+  }
+}
+
+
 /**
  *  @brief main function for talker node
  *
@@ -61,6 +96,11 @@
  *  @param argv-char** array of character pointers listing the arguments
  *
  *  @return 0
+ *
+ * This function implements the publisher for publishing the message on topic
+ * alongwith added functionalities of changing the publishing rate of the messages.
+ * This can be done by passing the value for frequency from the roslaunch command.
+ *
  */
 int main(int argc, char **argv) {
   /**
@@ -81,10 +121,6 @@ int main(int argc, char **argv) {
    */
   ros::NodeHandle n;
 
-  ros::ServiceClient client = n.serviceClient < beginner_tutorials::changeString
-      > ("modify_string");
-  beginner_tutorials::changeString srvObj;
-  // srvObj.request.inputString = argv[1];
   /**
    * The advertise() function is how you tell ROS that you want to
    * publish on a given topic name. This invokes a call to the ROS
@@ -105,36 +141,61 @@ int main(int argc, char **argv) {
   ros::Publisher chatter_pub = n.advertise < std_msgs::String
       > ("chatter", 1000);
 
-  ros::Rate loop_rate(10);
+  /// Variable for setting the publishing frequency/rate
+  int freq = 10;
+
+  /// decision for argument passed from command line
+  if (argc == 2) {
+    int clp = atoi(argv[1]);
+    if (clp > 0) {
+      freq = clp;
+      ROS_INFO_STREAM("Input rate is now:" << freq);
+    } else {
+      ROS_ERROR_STREAM("Publishing rate is not valid, cannot be negative.");
+    }
+  } else {
+    ROS_DEBUG_STREAM("Default publishing rate of 10 Hz used.");
+  }
+
+
+  /**
+   * A ros::Rate object allows you to specify a
+   * frequency that you would like to loop at.
+   */
+  ros::Rate loop_rate(freq);
 
   /**
    * A count of how many messages we have sent. This is used to create
    * a unique string for each message.
    */
   int count = 0;
+
+  ros::ServiceServer service = n.advertiseService("modify_string",
+                                                  modifyString);
+
   while (ros::ok()) {
     /**
      * This is a message object. You stuff it with data, and then publish it.
      */
     std_msgs::String msg;
+
+    /**
+     * This is stringstream object to contain a sequence of characters.
+     * This sequence of characters can be accessed directly as a string object,
+     *  using member str.
+     */
     std::stringstream ss;
-    ss << "Hi! This is the basic beginner tutorial for"
-       " implementing ROS publisher and subscriber."
-       << count;
+
+    ss << baseString << count;
     msg.data = ss.str();
 
-    srvObj.request.inputString = msg.data;
+    /**
+     * Info level Log message that either contains the original baseString or
+     * the baseString after modification with service call.
+     *
+     */
+    ROS_INFO("%s", msg.data.c_str());
 
-    if (client.call(srvObj)) {
-      ROS_INFO_STREAM(
-          "The original message has been modified to: "
-              << srvObj.response.outputString);
-      msg.data = srvObj.response.outputString;
-    } else {
-      ROS_ERROR_STREAM("Could not successfully execute the service.");
-    }
-
-    ROS_INFO_STREAM("Talker: "<< msg.data.c_str());
     /**
      * The publish() function is how you send messages. The parameter
      * is the message object. The type of this object must agree with the type
@@ -145,8 +206,16 @@ int main(int argc, char **argv) {
 
     ros::spinOnce();
 
+    /**
+     * using the ros::Rate object to sleep for the time remaining to let us
+     * hit our publish rate.
+     */
     loop_rate.sleep();
     ++count;
   }
+
+  ROS_FATAL_STREAM("ROS node has been terminated.");
+
   return 0;
 }
+

@@ -1,11 +1,12 @@
 
 Output:
 
-./src/listener.cpp:70:  Is this a non-const reference? If so, make const or use a pointer: beginner_tutorials::changeString::Request &req  [runtime/references] [2]
-./src/listener.cpp:71:  Is this a non-const reference? If so, make const or use a pointer: beginner_tutorials::changeString::Response &res  [runtime/references] [2]
 Done processing ./src/listener.cpp
+./src/talker.cpp:73:  Is this a non-const reference? If so, make const or use a pointer: beginner_tutorials::changeString::Request &req  [runtime/references] [2]
+./src/talker.cpp:74:  Is this a non-const reference? If so, make const or use a pointer: beginner_tutorials::changeString::Response &res  [runtime/references] [2]
 Done processing ./src/talker.cpp
 Total errors found: 2
+
 
 
 

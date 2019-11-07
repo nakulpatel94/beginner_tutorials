@@ -4,10 +4,11 @@ Output:
 
 (information) Couldn't find path given by -I 'include/'
 Checking src/listener.cpp...
-1/2 files checked 47% done
+1/2 files checked 38% done
 Checking src/talker.cpp...
 2/2 files checked 100% done
 (information) Cppcheck cannot find all the include files (use --check-config for details)
+
 
 
 

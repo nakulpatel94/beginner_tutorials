@@ -31,6 +31,10 @@ catkin_make
 ```
 In above steps, we have again executed catkin_make command to rebuild our workspace with the freshly installed package(beginner_tutorials)
 
+To checkout to the branch for service implementation, i.e branch Week10_HW, use following command:
+```
+git checkout Week10_HW
+```
 
 ## Running this package(beginner_tutorials)
 After successfully building the workspace with the package, we have already created the executables for our nodes:
@@ -66,5 +70,56 @@ Now, run the subscriber(listener) node.
 ```
 rosrun beginner_tutorials listener
 ```
+
+## Using launch file for the package(beginner_tutorials)
+
+Instead of using indiviual rosrun commands, launch file can be used to launch the nodes simultaneouly.
+This can be done by using the following roslaunch command, after building your ROS workspace.
+
+```
+roslaunch beginner_tutorials servicelaunch.launch
+```
+The above command has the default publishing rate for messages as 10 Hz, however, it can be modified by providing the argument to roslaunch command as follows:
+
+```
+roslaunch beginner_tutorials servicelaunch.launch freq:=2
+```
+
+Here, we are setting the value for freq(variable for publishing frequency) as 2.
+
+
+## Using ROS service for the package(beginner_tutorials)
+
+ROS services are used as request/response mode of communication between ROS nodes. In this package, a service to modify base string has been implemented. The talker initially publishes the base string which we have defined in the program. That base string can be changed using the customized string with the help of simple service call through command line.  The service can be called using following command:
+
+```
+rosservice call /modify_string "I have changed the baseString."
+```
+
+Now, the publisher node will publish this string "I have changed the baseString." on the terminal, and hence the subscriber node will also subscibe the same.
+
+
+## Using rqt_console for checking log messages
+
+The following command can be used to see the GUI indicating various logger levels used in the nodes.
+
+```
+rqt_console
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
  

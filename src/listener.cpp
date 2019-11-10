@@ -102,8 +102,7 @@ int main(int argc, char **argv) {
   if (resObj.outputString.empty()) {
     ROS_WARN_STREAM("The service is not yet called. ");
   } else {
-    ROS_INFO_STREAM("Service has been called.");
-    
+    ROS_INFO_STREAM("Service has been called."); 
   }
 
   /**

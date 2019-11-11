@@ -204,7 +204,7 @@ int main(int argc, char **argv) {
      * the baseString after modification with service call.
      *
      */
-    ROS_INFO("%s", msg.data.c_str());
+    ROS_INFO_STREAM("Talker says:" << msg.data.c_str());
 
     /**
      * The publish() function is how you send messages. The parameter

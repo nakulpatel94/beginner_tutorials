@@ -38,7 +38,7 @@
  *
  * @version 1
  *
- * @date 2019-11-06
+ * @date 2019-11-10
  *
  * @section DESCRIPTION
  *
@@ -174,10 +174,12 @@ int main(int argc, char **argv) {
    * a unique string for each message.
    */
   int count = 0;
-
+  
+  /// Creating the service object
   ros::ServiceServer service = n.advertiseService("modify_string",
                                                   modifyString);
-
+  
+  /// creating object of tf::TransformBroadcaster
   static tf::TransformBroadcaster br;
 
   tf::Transform transform;
@@ -213,11 +215,16 @@ int main(int argc, char **argv) {
      * in the constructor above.
      */
     chatter_pub.publish(msg);
-
+    
+    /// Setting the origin for the tf frame
     transform.setOrigin(tf::Vector3(10.0, 20.0, 0.0));
     tf::Quaternion q;
+
+    /// Setting the rotation for tf frame, with Yaw angle
     q.setRPY(0, 0, 30);
     transform.setRotation(q);
+    
+    /// broadcasting the transform object
     br.sendTransform(
         tf::StampedTransform(transform, ros::Time::now(), "world", "talk"));
 

@@ -55,8 +55,7 @@
 
 
 /**
- * @brief Test if Start Coordinates and get coordinates functions works properly
- * Set valid coordinates that are within the map
+ * @brief Test to check whether the servie is in existence
  * @param none
  * @return none
  */
@@ -66,15 +65,20 @@ TEST(TalkerNodeTest, testTalkerNodeService ) {
   ros::ServiceClient client = nh.serviceClient<beginner_tutorials::changeString>(
       "modify_string");
   
+  /// to check for the service call
   bool checkExist = client.waitForExistence(ros::Duration(3));
+  /// expect true macro for test
   EXPECT_TRUE(checkExist);
 }
 
 
 /**
- * @brief Test if Start Coordinates function works properly
- * Set invalid coordinates that are out of bounds.
- * Set function should return false
+ * @brief Test is the serice works as expected
+ *
+ * This test sets the input string, with the help of service and 
+ * modifies the base string, then the EXPECT_STREQ macro tests 
+ * whether they are equal
+ *
  * @param none
  * @return none
  */
@@ -83,12 +87,15 @@ TEST(TalkerNodeTest, testTalkerNodeServiceMessage ) {
   
   ros::ServiceClient client = nh.serviceClient<beginner_tutorials::changeString>(
       "modify_string");
-
+  /// creating the object for service
   beginner_tutorials::changeString servObj;
 
   servObj.request.inputString = "testString";
-
+  
+  /// calling the service with client onject
   client.call(servObj.request, servObj.response);
+
+  /// macro to check whether strings are equal  
   EXPECT_STREQ("testString", servObj.response.outputString.c_str());
 }
 

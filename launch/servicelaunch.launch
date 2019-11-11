@@ -25,7 +25,7 @@
 		pkg = "rosbag"
 		name = "record"
 		type = "record"
-		args = "-a -O $(find beginner_tutorials)/rosbagRecorded.bag"      
+		args = "-a -O $(find beginner_tutorials)/results/rosbagRecorded.bag"      
 	/>
 </launch>
 

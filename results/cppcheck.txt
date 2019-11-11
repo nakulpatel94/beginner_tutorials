@@ -3,12 +3,15 @@
 Output:
 
 (information) Couldn't find path given by -I 'include/'
-Checking src/listener.cpp...
-1/2 files checked 38% done
-Checking src/talker.cpp...
-2/2 files checked 100% done
+Checking src/beginner_tutorials/src/listener.cpp...
+1/4 files checked 25% done
+Checking src/beginner_tutorials/src/talker.cpp...
+2/4 files checked 70% done
+Checking src/beginner_tutorials/test/main.cpp...
+3/4 files checked 82% done
+Checking src/beginner_tutorials/test/publisherTest.cpp...
+4/4 files checked 100% done
 (information) Cppcheck cannot find all the include files (use --check-config for details)
-
 
 
 

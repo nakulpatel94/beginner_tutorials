@@ -47,9 +47,10 @@
  * will send the custom message over the ROS system.
  *
  */
+
+#include <tf/transform_broadcaster.h>
 #include <sstream>
 #include <string>
-#include <tf/transform_broadcaster.h>
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 #include "beginner_tutorials/changeString.h"
@@ -59,7 +60,7 @@
  */
 struct TopicMessage {
   std::string baseString = "This is the basic tutorial for"
-    " implementing ROS services.";
+      " implementing ROS services.";
 } msgObj;
 
 /**
@@ -174,16 +175,15 @@ int main(int argc, char **argv) {
    * a unique string for each message.
    */
   int count = 0;
-  
+
   /// Creating the service object
   ros::ServiceServer service = n.advertiseService("modify_string",
                                                   modifyString);
-  
+
   /// creating object of tf::TransformBroadcaster
   static tf::TransformBroadcaster br;
 
   tf::Transform transform;
-
 
   while (ros::ok()) {
     /**
@@ -215,7 +215,7 @@ int main(int argc, char **argv) {
      * in the constructor above.
      */
     chatter_pub.publish(msg);
-    
+
     /// Setting the origin for the tf frame
     transform.setOrigin(tf::Vector3(10.0, 20.0, 0.0));
     tf::Quaternion q;
@@ -223,7 +223,7 @@ int main(int argc, char **argv) {
     /// Setting the rotation for tf frame, with Yaw angle
     q.setRPY(0, 0, 30);
     transform.setRotation(q);
-    
+
     /// broadcasting the transform object
     br.sendTransform(
         tf::StampedTransform(transform, ros::Time::now(), "world", "talk"));

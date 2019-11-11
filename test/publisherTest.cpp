@@ -42,7 +42,7 @@
  *
  * @section DESCRIPTION
  *
- * This is the .cpp file that uses certain unit tests from 
+ * This is the .cpp file that uses certain unit tests from
  * gtest framework to test the functionality of talker node.
  *
  */
@@ -60,11 +60,11 @@
  * @return none
  */
 TEST(TalkerNodeTest, testTalkerNodeService ) {
-  ros::NodeHandle nh; 
+  ros::NodeHandle nh;
 
-  ros::ServiceClient client = nh.serviceClient<beginner_tutorials::changeString>(
-      "modify_string");
-  
+  ros::ServiceClient client = nh.serviceClient
+      < beginner_tutorials::changeString > ("modify_string");
+
   /// to check for the service call
   bool checkExist = client.waitForExistence(ros::Duration(3));
   /// expect true macro for test
@@ -75,27 +75,27 @@ TEST(TalkerNodeTest, testTalkerNodeService ) {
 /**
  * @brief Test is the serice works as expected
  *
- * This test sets the input string, with the help of service and 
- * modifies the base string, then the EXPECT_STREQ macro tests 
+ * This test sets the input string, with the help of service and
+ * modifies the base string, then the EXPECT_STREQ macro tests
  * whether they are equal
  *
  * @param none
  * @return none
  */
 TEST(TalkerNodeTest, testTalkerNodeServiceMessage ) {
-  ros::NodeHandle nh; 
-  
-  ros::ServiceClient client = nh.serviceClient<beginner_tutorials::changeString>(
-      "modify_string");
+  ros::NodeHandle nh;
+
+  ros::ServiceClient client = nh.serviceClient
+      < beginner_tutorials::changeString > ("modify_string");
   /// creating the object for service
   beginner_tutorials::changeString servObj;
 
   servObj.request.inputString = "testString";
-  
+
   /// calling the service with client onject
   client.call(servObj.request, servObj.response);
 
-  /// macro to check whether strings are equal  
+  /// macro to check whether strings are equal
   EXPECT_STREQ("testString", servObj.response.outputString.c_str());
 }
 

@@ -64,7 +64,7 @@
  * @return none
  */
 void chatterCallback(const std_msgs::String::ConstPtr& msg) {
-  ROS_INFO_STREAM("I heard: "<< msg->data.c_str());
+  ROS_INFO_STREAM("I heard: " << msg->data.c_str());
 }
 
 
@@ -96,13 +96,12 @@ int main(int argc, char **argv) {
    */
   ros::NodeHandle n;
 
-  
   /// Response object for the service_type beginner_tutorials::changeString
   beginner_tutorials::changeString::Response resObj;
   if (resObj.outputString.empty()) {
     ROS_WARN_STREAM("The service is not yet called. ");
   } else {
-    ROS_INFO_STREAM("Service has been called."); 
+    ROS_INFO_STREAM("Service has been called.");
   }
 
   /**

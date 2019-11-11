@@ -107,6 +107,67 @@ The following command can be used to see the GUI indicating various logger level
 rqt_console
 ```
 
+## Using tf library for TF frames inspection
+
+The talker node in this package broadcasts a tf frame called /talk with parent /world. The tf frame has non-zero translation and rotation.The frame is published on /tf topic.
+
+To echo the tf topic, type the following in a new terminal:
+```
+rosrun tf tf_echo /world /talk
+```
+To visulaize the tree of frames, use rqt_tf_tree command:
+```
+rosrun rqt_tf_tree rqt_tf_tree
+```
+view_frames creates a diagram of the frames being broadcast by tf over ROS. In a new terminal:
+``` 
+rosrun tf view_frames
+```
+
+
+## Instructions to run ROS Unit-Tests 
+ROS unittests have been used in this package beginner_tutorials, to test the Talker(publisher) node. The test subdirectory has the following .cpp files:
+
+- main.cpp
+- publisherTest.cpp
+- publisherTest.launch
+
+To run the tests, follow these commands:
+In a new terminal,
+```
+roslaunch beginner_tutorials publisherTest.launch
+```
+This command, will build a executable for tests named publishTest, which can be run using rosrun command.
+
+In another terminal:
+```
+rosrun beginner_tutorials publisherTest
+```
+
+
+## Running bag files recorded as .bag
+
+Bag files are used to record the informations and messages on various topics in the running ROS system.
+
+To record a bag file using the roslaunch command and the enableBag argument(default is false) for enabling/disabling rosbag recording:
+```
+roslaunch beginner_tutorials servicelaunch.launch enableBag:=true
+```
+
+Once we have stored a recorded bag file, we can play it anytime we want. For this pakage, the bag file is located in the results subdirectory.
+
+To play this bag file, simply type following command in a terminal, after starting roscore:
+```
+cd ~/your_workspace/src/beginner_tutorials/results
+rosbag play rosbagRecorded.bag
+```
+
+Then, run the listener node to verify that listener is printing the messages from bag file.
+```
+cd ~/your_workspace/
+rosrun beginner_tutorials listener
+```
+
 
 
 

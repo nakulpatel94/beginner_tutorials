@@ -3,6 +3,10 @@
                name = "freq"
                default = "10"
         />
+        <arg 
+               name = "enableBag"
+               default = "false"
+        />
 	<node
 		pkg = "beginner_tutorials"
 		name = "talker"
@@ -15,6 +19,13 @@
 		name = "listener"
 		type = "listener"
 		output = "screen"           
+	/>
+        <node    
+                if = "$(arg enableBag)"
+		pkg = "rosbag"
+		name = "record"
+		type = "record"
+		args = "-a -O $(find beginner_tutorials)/rosbagRecorded.bag"      
 	/>
 </launch>
 

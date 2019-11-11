@@ -49,6 +49,7 @@
  */
 #include <sstream>
 #include <string>
+#include <tf/transform_broadcaster.h>
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 #include "beginner_tutorials/changeString.h"
@@ -173,6 +174,11 @@ int main(int argc, char **argv) {
   ros::ServiceServer service = n.advertiseService("modify_string",
                                                   modifyString);
 
+  static tf::TransformBroadcaster br;
+
+  tf::Transform transform;
+
+
   while (ros::ok()) {
     /**
      * This is a message object. You stuff it with data, and then publish it.
@@ -203,6 +209,14 @@ int main(int argc, char **argv) {
      * in the constructor above.
      */
     chatter_pub.publish(msg);
+
+
+
+    transform.setOrigin( tf::Vector3(10.0, 20.0, 0.0) );
+    tf::Quaternion q;
+    q.setRPY(0, 0, 30);
+    transform.setRotation(q);
+    br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "world", "talk"));
 
     ros::spinOnce();
 

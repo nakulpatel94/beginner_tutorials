@@ -54,9 +54,13 @@
 #include "std_msgs/String.h"
 #include "beginner_tutorials/changeString.h"
 
-/// To initialize the baseString appearing on console
-extern std::string baseString = "This is the basic tutorial for"
+/**
+ * To initialize the baseString appearing on console
+ */
+struct TopicMessage {
+  std::string baseString = "This is the basic tutorial for"
     " implementing ROS services.";
+} msgObj;
 
 /**
  *  @brief modifies the base string
@@ -74,7 +78,7 @@ extern std::string baseString = "This is the basic tutorial for"
 bool modifyString(beginner_tutorials::changeString::Request &req,
                   beginner_tutorials::changeString::Response &res) {
   if (req.inputString.size() > 0) {
-    baseString = req.inputString;
+    msgObj.baseString = req.inputString;
     /// Stuffing the response object data with incoming request data
     res.outputString = req.inputString;
 
@@ -192,7 +196,7 @@ int main(int argc, char **argv) {
      */
     std::stringstream ss;
 
-    ss << baseString << count;
+    ss << msgObj.baseString << count;
     msg.data = ss.str();
 
     /**
@@ -210,13 +214,12 @@ int main(int argc, char **argv) {
      */
     chatter_pub.publish(msg);
 
-
-
-    transform.setOrigin( tf::Vector3(10.0, 20.0, 0.0) );
+    transform.setOrigin(tf::Vector3(10.0, 20.0, 0.0));
     tf::Quaternion q;
     q.setRPY(0, 0, 30);
     transform.setRotation(q);
-    br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "world", "talk"));
+    br.sendTransform(
+        tf::StampedTransform(transform, ros::Time::now(), "world", "talk"));
 
     ros::spinOnce();
 

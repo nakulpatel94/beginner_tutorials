@@ -143,6 +143,21 @@ In another terminal:
 ```
 rosrun beginner_tutorials publisherTest
 ```
+After running this command, you will see:
+```
+[==========] Running 2 tests from 1 test case.
+[----------] Global test environment set-up.
+[----------] 2 tests from TalkerNodeTest
+[ RUN      ] TalkerNodeTest.testTalkerNodeService
+[       OK ] TalkerNodeTest.testTalkerNodeService (229 ms)
+[ RUN      ] TalkerNodeTest.testTalkerNodeServiceMessage
+[       OK ] TalkerNodeTest.testTalkerNodeServiceMessage (203 ms)
+[----------] 2 tests from TalkerNodeTest (432 ms total)
+
+[----------] Global test environment tear-down
+[==========] 2 tests from 1 test case ran. (432 ms total)
+[  PASSED  ] 2 tests.
+```
 
 
 ## Running bag files recorded as .bag
